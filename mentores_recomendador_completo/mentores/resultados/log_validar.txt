@@ -1,0 +1,50 @@
+Métricas de ranking (estudiantes de prueba nuevos):
+                        estrategia  k  precision_k  acierto_k  ndcg_k
+                             Azar  1       0.3333     0.3333  0.3333
+                             Azar  3       0.3256     0.7067  0.3281
+                             Azar  5       0.3287     0.9067  0.3298
+Contar coincidencias (sin modelo)  1       0.8000     0.8000  0.8000
+Contar coincidencias (sin modelo)  3       0.7211     0.9667  0.7371
+Contar coincidencias (sin modelo)  5       0.6680     0.9900  0.6957
+              Regresión logística  1       0.8200     0.8200  0.8200
+              Regresión logística  3       0.7522     0.9867  0.7684
+              Regresión logística  5       0.7060     1.0000  0.7319
+       Regla real (cota superior)  1       0.8367     0.8367  0.8367
+       Regla real (cota superior)  3       0.7578     0.9867  0.7754
+       Regla real (cota superior)  5       0.7000     1.0000  0.7308
+
+Proporción de pares compatibles en prueba: 0.314
+
+Coeficientes (el ruido de la regla atenúa un poco los aprendidos):
+        atributo  coef_regla_real  coef_aprendido
+  misma_carrera              1.3           1.189
+  mismo_interes              0.9           0.870
+cubre_necesidad              1.6           1.441
+   misma_franja              0.8           0.728
+  dif_semestres             -0.1          -0.115
+     intercepto             -1.4          -1.145
+
+Top-1 del modelo coincide con el de la regla real en 92.7% de los estudiantes
+Grupos con mayor brecha:
+  variable                  valor  n_estudiantes  precision_3_modelo  precision_3_regla_real  brecha
+necesidad            Estadística             51              0.7974                  0.8105  0.0131
+  carrera Ingeniería Informática             52              0.7692                  0.7821  0.0128
+  carrera   Ingeniería Comercial             55              0.6848                  0.6970  0.0121
+necesidad                Cálculo             58              0.7529                  0.7644  0.0115
+   franja                  Noche             88              0.6780                  0.6894  0.0114
+
+Casos límite:
+                                     caso                                                                                             resultado
+Todos los perfiles posibles (semestre 1)                 375/375 sin error; top-1 entre 0.62 y 0.93; 0 con aviso de baja compatibilidad (<50%)
+                              semestre=0 BLOQUEADO: semestre=0 no es válido: debe estar entre 1 y 9 (tiene que existir algún mentor de semestr
+                              semestre=1                                                                         OK (60 candidatos); avisos: 0
+                              semestre=2                                                                         OK (60 candidatos); avisos: 0
+                              semestre=3                                                                         OK (60 candidatos); avisos: 1
+                              semestre=9                                                                          OK (6 candidatos); avisos: 1
+                             semestre=10 BLOQUEADO: semestre=10 no es válido: debe estar entre 1 y 9 (tiene que existir algún mentor de semest
+                            semestre=1.5                                        BLOQUEADO: semestre debe ser un número entero (recibido: 1.5).
+                           semestre=True                                       BLOQUEADO: semestre debe ser un número entero (recibido: True).
+                            semestre='1'                                        BLOQUEADO: semestre debe ser un número entero (recibido: '1').
+                           semestre=None                                                   BLOQUEADO: Faltan campos obligatorios: ['semestre']
+
+Archivos guardados en resultados
