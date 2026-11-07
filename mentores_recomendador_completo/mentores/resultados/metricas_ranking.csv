@@ -1,0 +1,13 @@
+estrategia,k,precision_k,acierto_k,ndcg_k
+Azar,1,0.3333,0.3333,0.3333
+Azar,3,0.3256,0.7067,0.3281
+Azar,5,0.3287,0.9067,0.3298
+Contar coincidencias (sin modelo),1,0.8,0.8,0.8
+Contar coincidencias (sin modelo),3,0.7211,0.9667,0.7371
+Contar coincidencias (sin modelo),5,0.668,0.99,0.6957
+Regresión logística,1,0.82,0.82,0.82
+Regresión logística,3,0.7522,0.9867,0.7684
+Regresión logística,5,0.706,1.0,0.7319
+Regla real (cota superior),1,0.8367,0.8367,0.8367
+Regla real (cota superior),3,0.7578,0.9867,0.7754
+Regla real (cota superior),5,0.7,1.0,0.7308

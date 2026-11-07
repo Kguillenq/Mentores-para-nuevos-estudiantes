@@ -1,0 +1,14 @@
+variable,valor,n_estudiantes,precision_3_modelo,precision_3_regla_real,brecha
+necesidad,Estadística,51,0.7974,0.8105,0.0131
+carrera,Ingeniería Informática,52,0.7692,0.7821,0.0128
+carrera,Ingeniería Comercial,55,0.6848,0.697,0.0121
+necesidad,Cálculo,58,0.7529,0.7644,0.0115
+franja,Noche,88,0.678,0.6894,0.0114
+franja,Mañana,111,0.7838,0.7928,0.009
+necesidad,Programación,56,0.7738,0.7798,0.006
+carrera,Derecho,69,0.7971,0.8019,0.0048
+carrera,Enfermería,58,0.7989,0.7989,0.0
+carrera,Psicología,66,0.7071,0.7071,0.0
+necesidad,Redacción académica,70,0.6524,0.6524,0.0
+necesidad,Técnicas de estudio,65,0.8051,0.8051,0.0
+franja,Tarde,101,0.7822,0.7789,-0.0033

@@ -1,0 +1,12 @@
+caso,resultado
+Todos los perfiles posibles (semestre 1),375/375 sin error; top-1 entre 0.62 y 0.93; 0 con aviso de baja compatibilidad (<50%)
+semestre=0,BLOQUEADO: semestre=0 no es válido: debe estar entre 1 y 9 (tiene que existir algún mentor de semestr
+semestre=1,OK (60 candidatos); avisos: 0
+semestre=2,OK (60 candidatos); avisos: 0
+semestre=3,OK (60 candidatos); avisos: 1
+semestre=9,OK (6 candidatos); avisos: 1
+semestre=10,BLOQUEADO: semestre=10 no es válido: debe estar entre 1 y 9 (tiene que existir algún mentor de semest
+semestre=1.5,BLOQUEADO: semestre debe ser un número entero (recibido: 1.5).
+semestre=True,BLOQUEADO: semestre debe ser un número entero (recibido: True).
+semestre='1',BLOQUEADO: semestre debe ser un número entero (recibido: '1').
+semestre=None,BLOQUEADO: Faltan campos obligatorios: ['semestre']
