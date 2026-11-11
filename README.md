@@ -7,7 +7,7 @@ según su compatibilidad y explica los motivos. Interfaz web con **Gradio**; mod
 > más ruido. Las probabilidades NO miden el éxito real de una mentoría. Ver `docs/limitaciones_riesgos.md`.
 
 ## Problema, usuarios y alcance
-- **Problema:** los estudiantes de 1.º–2.º semestre necesitan elegir un mentor de semestres superiores, y hoy esa elección se hace sin criterio sistemático (por conocidos o al azar). El sistema ordena a los mentores por compatibilidad (carrera, interés, necesidad académica, franja horaria y diferencia de semestres) para apoyar esa decisión; la coordinación del programa puede usarlo para orientar asignaciones. [El equipo debe confirmar que describe el contexto real de su caso.]
+- **Problema:** los estudiantes de 1.º–2.º semestre necesitan elegir un mentor de semestres superiores, y hoy esa elección se hace sin criterio sistemático (por conocidos o al azar). El sistema ordena a los mentores por compatibilidad (carrera, interés, necesidad académica, franja horaria y diferencia de semestres) para apoyar esa decisión; la coordinación del programa puede usarlo para orientar asignaciones.
 - **Usuarios:** estudiantes de primer año y coordinación del programa.
 - **Alcance del prototipo:** recomendar top-k mentores con motivos. Fuera de alcance: agendar sesiones, datos reales, autenticación.
 
