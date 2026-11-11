@@ -1,2 +1,9 @@
+# Secretos
 .env
-*joblib
+
+# Archivos generados al ejecutar
+*.joblib
+__pycache__/
+.pytest_cache/
+.venv/
+venv/
