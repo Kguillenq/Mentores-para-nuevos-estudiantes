@@ -1,7 +1,7 @@
 # Recomendador de mentores universitarios (Proyecto Integrador DSI · EVAL-01)
 
 Prototipo que, a partir del perfil de un estudiante de 1.º–2.º semestre, ordena a los mentores de semestres superiores
-según su compatibilidad y explica los motivos. Interfaz web con **Gradio**; modelo: **regresión logística** en un `Pipeline` de scikit-learn.
+según su compatibilidad y explica los motivos. Interfaz web (HTML + CSS + JS); modelo: **regresión logística** en un `Pipeline` de scikit-learn.
 
 > ⚠️ **Datos sintéticos.** No hay datos personales. La etiqueta `compatible` se simula con una regla definida por el equipo
 > más ruido. Las probabilidades NO miden el éxito real de una mentoría. Ver `docs/limitaciones_riesgos.md`.
@@ -19,31 +19,34 @@ según su compatibilidad y explica los motivos. Interfaz web con **Gradio**; mod
 | `modelo.py` | Atributos del par estudiante–mentor y `Pipeline` |
 | `entrenar.py` | Compara modelos (CV agrupada por estudiante), entrena y guarda `.joblib` + catálogo |
 | `recomendador.py` | Validación de entrada + inferencia (`predict_proba`, nunca `fit`) |
-| `app.py` | Interfaz Gradio (también expone una API: `api_name="recomendar"`) |
 | `validar.py` | Métricas de ranking, líneas base, coeficientes, errores por grupo y casos límite |
 | `exportar_web.py` | Exporta el modelo y el catálogo a `docs/js/modelo.js` para la interfaz web |
 | `diagrama.py` | Genera el diagrama de componentes (`resultados/diagrama_componentes.png`) |
-| `test_recomendador.py`, `test_app_y_datos.py` | Pruebas automáticas (`pytest`): validación, inferencia, interfaz Gradio y datos |
-| `docs/` | Datos, limitaciones y riesgos, bitácora de validación, declaración de uso de IA |
+| `test_recomendador.py`, `test_app_y_datos.py` | Pruebas automáticas (`pytest`): validación, inferencia y datos sintéticos |
+| `docs/` (dentro de `mentores/`) | Datos, limitaciones y riesgos, bitácora de validación, declaración de uso de IA |
 | `resultados/` | Salidas reales de la última ejecución: CSV de métricas, gráficos y logs (`log_*.txt`) |
+| `docs/` (en la raíz del repositorio) | Interfaz web (`index.html`, `css/`, `js/`). Ver la sección «Sitio web» |
 
 ## Arquitectura (flujo de datos)
 ```
-Formulario Gradio ──► validar_entrada() ──► Pipeline (atributos → escalado → regresión logística) ──► top-k + motivos
- (app.py)             (error: bloquea)        ▲ catálogo de mentores (catalogo_mentores.csv)          (tabla + avisos)
+Formulario web ──► validación de entrada ──► Regresión logística (coeficientes de modelo.js) ──► top-k + motivos
+(docs/index.html)   (error: no calcula)       ▲ catálogo de mentores (en modelo.js)             (ranking + avisos)
 ```
+El modelo se entrena fuera de línea con `entrenar.py` y se exporta a la web con `exportar_web.py`.
+El backend en Python (`recomendador.py`) hace la misma validación e inferencia y se usa para las pruebas y la validación.
 
 ## Requisitos y ejecución (Python 3.10+)
+Desde la carpeta `mentores_recomendador_completo/mentores/`:
 ```bash
 pip install -r requirements.txt
 python entrenar.py      # genera datos sintéticos, compara modelos y guarda el modelo y el catálogo
 python validar.py       # genera resultados/ (métricas, coeficientes, errores, casos límite, gráfico)
 python diagrama.py      # genera resultados/diagrama_componentes.png
-pytest -q               # pruebas automáticas (22)
-python app.py           # abre http://127.0.0.1:7860
+pytest -q               # pruebas automáticas (19)
+python exportar_web.py  # actualiza docs/js/modelo.js con el modelo entrenado
 ```
-En Google Colab: sube la carpeta, ejecuta `!pip install -r requirements.txt`, `!python entrenar.py` y luego
-`!python app.py` (Gradio mostrará un enlace). Todo es reproducible: semilla fija (`SEMILLA = 42` en `config.py`).
+Luego abre `docs/index.html` (carpeta raíz del repositorio) en el navegador.
+Todo es reproducible: semilla fija (`SEMILLA = 42` en `config.py`).
 
 ## Resultados
 Los resultados salen de ejecutar `entrenar.py` y `validar.py` (carpeta `resultados/`). Resumen y análisis: `docs/bitacora_validacion.md`.
@@ -51,10 +54,10 @@ Resumen: AUC 0.732 (validación cruzada agrupada), precisión@3 de 0.752 frente 
 Datos y su generación: `docs/datos.md`. Diagrama: `resultados/diagrama_componentes.png`.
 
 ## Uso de IA generativa
-Ver `docs/declaracion_ia.md`. 
+Ver `docs/declaracion_ia.md`.
 
 ## Sitio web (interfaz)
-La carpeta [`docs/`](docs/) contiene la **interfaz web** (HTML + CSS + JS, sin servidor ni inicio de sesión). Sigue el mismo contrato que el backend:
+La carpeta [`docs/`](docs/) de la raíz contiene la **interfaz web** (HTML + CSS + JS, sin servidor ni inicio de sesión). Sigue el mismo contrato que el backend:
 el estudiante elige **carrera, área de interés, necesidad académica, franja horaria y semestre** y la página muestra los mentores con mayor
 **compatibilidad**, junto con los motivos (misma carrera, comparte interés, puede reforzar la necesidad, misma franja).
 
