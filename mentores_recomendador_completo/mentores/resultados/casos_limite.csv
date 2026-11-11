@@ -10,3 +10,4 @@ semestre=1.5,BLOQUEADO: semestre debe ser un número entero (recibido: 1.5).
 semestre=True,BLOQUEADO: semestre debe ser un número entero (recibido: True).
 semestre='1',BLOQUEADO: semestre debe ser un número entero (recibido: '1').
 semestre=None,BLOQUEADO: Faltan campos obligatorios: ['semestre']
+
