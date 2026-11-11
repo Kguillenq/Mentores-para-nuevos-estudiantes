@@ -55,7 +55,7 @@ Los números salen de `resultados/` (logs completos en `resultados/log_entrenar.
 - Los 375 perfiles posibles con semestre 1 (5×5×5×3) se ejecutan sin error; la compatibilidad del top-1 va de 0.62 a 0.93 y ningún perfil activa el aviso de "baja compatibilidad" (< 50 %).
 - Se **bloquean** (el modelo no se ejecuta): semestre 0, semestre 10, 1.5, `True`, `"1"` y `None`.
 - Se ejecutan con **advertencia** de extrapolación: semestres 3 y 9 (el modelo solo vio 1.º y 2.º). Con semestre 9 quedan solo 6 candidatos.
-- `pytest -q`: **22 pruebas pasan** (entradas inválidas nunca llegan al modelo, `k` inválido, la inferencia no modifica el modelo y es determinista, ranking ordenado y con mentores de semestre superior, advertencia de extrapolación, función de la interfaz Gradio y reproducibilidad de los datos sintéticos).
+- `pytest -q`: **19 pruebas pasan** (entradas inválidas nunca llegan al modelo, `k` inválido, la inferencia no modifica el modelo y es determinista, ranking ordenado y con mentores de semestre superior, advertencia de extrapolación y reproducibilidad de los datos sintéticos).
 
 ## 6. Qué NO demuestra esta validación
 - Que las recomendaciones funcionen con estudiantes reales: los datos y la etiqueta son sintéticos.
