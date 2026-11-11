@@ -23,7 +23,7 @@ def main():
     fig, ax = plt.subplots(figsize=(15, 5.5))
     ax.axis("off"); ax.set_xlim(0, 15); ax.set_ylim(0, 5.5)
 
-    caja(ax, 0.2, 1.9, 2.9, 2.3, "INTERFAZ (app.py · Gradio)\ncarrera · interés\nnecesidad · franja\nsemestre · k", "#dbeafe")
+    caja(ax, 0.2, 1.9, 2.9, 2.3, "INTERFAZ (index.html)\ncarrera · interés\nnecesidad · franja\nsemestre · k", "#dbeafe")
     caja(ax, 3.9, 1.9, 2.9, 2.3, "VALIDACIÓN\nvalidar_entrada()\nobligatorios · tipos\ncategorías · semestre · k", "#fef3c7")
     caja(ax, 7.6, 1.9, 2.9, 2.3, "MODELO (joblib)\natributos del par →\nStandardScaler →\nRegresión Logística\n(solo predict_proba)", "#dcfce7")
     caja(ax, 11.3, 1.9, 3.4, 2.3, "SALIDA\ntop-k mentores · compatibilidad\nmotivos · advertencias\nlimitación (tabla en la interfaz)", "#fce7f3")
