@@ -1,5 +1,3 @@
-"""Pruebas de la interfaz Gradio (función `recomendar`) y de los datos sintéticos.
-Uso:  pytest -q   (requiere haber ejecutado antes python entrenar.py)"""
 import pandas as pd
 
 from config import COLUMNAS_PAR, SEM_ENTRENAMIENTO
