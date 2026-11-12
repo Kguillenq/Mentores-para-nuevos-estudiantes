@@ -2,7 +2,7 @@
 
 ## Origen y licencia
 - **No se usa ningún dataset externo para entrenar.** Todos los datos se generan con `datos.py` (semilla `SEMILLA = 42` en `config.py`), por lo que no hay licencia de terceros ni datos personales.
-- Se evaluó y **descartó** el dataset docente de mentores (`mentors_dataset.csv`, https://zenodo.org/records/13942111) porque solo describe mentores: no trae estudiantes ni resultados de emparejamiento, así que no permite aprender qué mentor le conviene a qué estudiante. [El equipo debe confirmar la condición de uso que figura en esa página de Zenodo si lo citan en el informe.]
+- Se evaluó y **descartó** el dataset docente de mentores (`mentors_dataset.csv`, https://zenodo.org/records/13942111) porque solo describe mentores: no trae estudiantes ni resultados de emparejamiento, así que no permite aprender qué mentor le conviene a qué estudiante.
 
 ## Cómo se generan
 | Elemento | Cantidad | Cómo |
