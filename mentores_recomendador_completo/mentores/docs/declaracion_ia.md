@@ -1,10 +1,10 @@
 # Declaración de uso de IA generativa
 
-Borrador preparado a partir de lo declarado en el notebook del Taller 03 y del trabajo de completado del 28-10-2026.
+Borrador preparado a partir de lo declarado en el notebook del Taller 03 y del trabajo de completado.
 
 | Campo | Contenido |
 |---|---|
-| Herramienta / modelo | Claude (Anthropic). Taller 03:Completado del proyecto: Claude Sonnet 5.5 (identificador `claude-sonnet-5-5`), 28-10-2026 |
+| Herramienta / modelo | Claude (Anthropic). Taller 03:Completado del proyecto: Claude Sonnet 5.5|
 | Finalidad | Taller 03: borrador del código del notebook, corrección del notebook y revisión contra la rúbrica. Proyecto: modularización del notebook en archivos (`config.py`, `datos.py`, `modelo.py`, `entrenar.py`, `recomendador.py`, `validar.py`), pruebas `pytest`, script del diagrama y borradores de la documentación (README, `docs/`) |
 | Componentes afectados | Todo el código del repositorio y los borradores de `docs/`. La idea del problema, el contrato de entrada/salida, la elección de atributos y la regla simulada provienen del taller del equipo|
 | Verificación realizada | Se ejecutaron `entrenar.py`, `validar.py` y `diagrama.py`; `pytest -q` (22 pruebas pasan); los números de `docs/bitacora_validacion.md` se copiaron de `resultados/`.|
