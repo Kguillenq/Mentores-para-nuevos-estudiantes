@@ -1,6 +1,6 @@
 # Bitácora de validación
 
-Ejecución: 28-10-2026 · Python 3.13 · scikit-learn 1.9.1, pandas 3.0.5, numpy 2.5.3, gradio 6.31.0 · semilla 42.
+Ejecución: 28-10-2026 · Python 3.13 · scikit-learn 1.9.1, pandas 3.0.5, numpy 2.5.3 · semilla 42.
 Los números salen de `resultados/` (logs completos en `resultados/log_entrenar.txt`, `log_validar.txt`, `log_pytest.txt`).
 **El equipo debe volver a ejecutar `entrenar.py` y `validar.py` en su propio equipo y confirmar que los números coinciden** (la semilla es fija; si usan otras versiones de las librerías, pueden variar en decimales) antes de entregar.
 
