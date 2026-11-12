@@ -15,4 +15,4 @@
 | Privacidad | Con datos reales habría datos personales/estudiantiles | El prototipo usa solo datos sintéticos; con datos reales se requiere autorización y anonimización |
 | Sobreconfianza | Un % de compatibilidad puede leerse como garantía | La interfaz muestra la limitación y usa el ranking como ayuda, no como decisión |
 | Seguridad | Credenciales o secretos en el repositorio | No hay claves en el proyecto; `.gitignore` excluye `.env`; revisar antes de subir |
-| Licencias | Dependencias de terceros | Según los metadatos de las versiones instaladas (28-10-2026): scikit-learn, pandas, numpy y joblib: BSD-3-Clause; Gradio: Apache-2.0; pytest: MIT; matplotlib: licencia propia de matplotlib (basada en PSF). Todas permiten uso académico. El equipo debe contrastarlo con la página de cada paquete en PyPI antes del informe |
+| Licencias | Dependencias de terceros | Según los metadatos de las versiones instaladas (28-10-2026): scikit-learn, pandas, numpy y joblib: BSD-3-Clause; pytest: MIT; matplotlib: licencia propia de matplotlib (basada en PSF). Todas permiten uso académico. El equipo debe contrastarlo con la página de cada paquete en PyPI antes del informe |
