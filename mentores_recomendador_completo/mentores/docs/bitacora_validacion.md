@@ -2,7 +2,6 @@
 
 Ejecución: 28-10-2026 · Python 3.13 · scikit-learn 1.9.1, pandas 3.0.5, numpy 2.5.3 · semilla 42.
 Los números salen de `resultados/` (logs completos en `resultados/log_entrenar.txt`, `log_validar.txt`, `log_pytest.txt`).
-**El equipo debe volver a ejecutar `entrenar.py` y `validar.py` en su propio equipo y confirmar que los números coinciden** (la semilla es fija; si usan otras versiones de las librerías, pueden variar en decimales) antes de entregar.
 
 ## 1. Comparación de modelos (`resultados/comparacion_modelos.csv`)
 - Protocolo: validación cruzada de 5 particiones **agrupada por estudiante** (un mismo estudiante nunca está a la vez en entrenamiento y prueba). 6.000 pares.
