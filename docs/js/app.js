@@ -45,15 +45,24 @@
   // y, cuando se toman todos, el mentor queda "sin cupos". Para cambiar la oferta, edita esta lista.
   // Nada se guarda: el estado vive solo en memoria y se reinicia al recargar la página.
   var HORARIOS = [
-    { id: 'i-d1', modalidad: 'individual', jornada: 'diurno',     dia: 'Lunes',     hora: '09:00 – 10:00' },
-    { id: 'i-d2', modalidad: 'individual', jornada: 'diurno',     dia: 'Miércoles', hora: '11:00 – 12:00' },
-    { id: 'i-v1', modalidad: 'individual', jornada: 'vespertino', dia: 'Martes',    hora: '17:00 – 18:00' },
-    { id: 'i-v2', modalidad: 'individual', jornada: 'vespertino', dia: 'Jueves',    hora: '18:00 – 19:00' },
-    { id: 'g-d1', modalidad: 'grupo',      jornada: 'diurno',     dia: 'Martes',    hora: '10:00 – 11:30' },
-    { id: 'g-v1', modalidad: 'grupo',      jornada: 'vespertino', dia: 'Viernes',   hora: '16:30 – 18:00' }
+    // Mañana
+    { id: 'i-m1', modalidad: 'individual', jornada: 'Mañana', dia: 'Lunes',     hora: '09:00 – 10:00' },
+    { id: 'i-m2', modalidad: 'individual', jornada: 'Mañana', dia: 'Miércoles', hora: '11:00 – 12:00' },
+    { id: 'g-m1', modalidad: 'grupo',      jornada: 'Mañana', dia: 'Martes',    hora: '10:00 – 11:30' },
+    // Tarde
+    { id: 'i-t1', modalidad: 'individual', jornada: 'Tarde',  dia: 'Lunes',     hora: '15:00 – 16:00' },
+    { id: 'i-t2', modalidad: 'individual', jornada: 'Tarde',  dia: 'Martes',    hora: '17:00 – 18:00' },
+    { id: 'i-t3', modalidad: 'individual', jornada: 'Tarde',  dia: 'Miércoles', hora: '16:00 – 17:00' },
+    { id: 'i-t4', modalidad: 'individual', jornada: 'Tarde',  dia: 'Viernes',   hora: '14:00 – 15:00' },
+    { id: 'g-t1', modalidad: 'grupo',      jornada: 'Tarde',  dia: 'Miércoles', hora: '17:00 – 18:30' },
+    { id: 'g-t2', modalidad: 'grupo',      jornada: 'Tarde',  dia: 'Viernes',   hora: '16:30 – 18:00' },
+    // Noche
+    { id: 'i-n1', modalidad: 'individual', jornada: 'Noche',  dia: 'Martes',    hora: '19:00 – 20:00' },
+    { id: 'i-n2', modalidad: 'individual', jornada: 'Noche',  dia: 'Jueves',    hora: '20:00 – 21:00' },
+    { id: 'g-n1', modalidad: 'grupo',      jornada: 'Noche',  dia: 'Lunes',     hora: '19:30 – 21:00' }
   ];
   var MODALIDADES = { individual: 'Clase individual', grupo: 'Grupo de estudio' };
-  var JORNADAS = { diurno: 'Diurno', vespertino: 'Vespertino' };
+  var JORNADAS = { 'Mañana': 'Mañana', 'Tarde': 'Tarde', 'Noche': 'Noche' };   // mismas franjas del modelo
 
   var state = { screen: 'form', carrera: null, interes: null, necesidad: null, franja: null,
                 semestre: 1, k: 3, errores: [],
@@ -139,7 +148,7 @@
 
   // ---------- Inscripción: lógica ----------
 
-  function jornadaPorDefecto() { return state.franja === 'Mañana' ? 'diurno' : 'vespertino'; }
+  function jornadaPorDefecto() { return state.franja || 'Mañana'; }
 
   function panelDe(id) {
     if (!state.panel[id]) state.panel[id] = { modalidad: 'individual', jornada: jornadaPorDefecto() };
@@ -162,7 +171,7 @@
   }
 
   function textoHorario(h) {
-    return h.dia + ', ' + h.hora + ' (jornada ' + (h.jornada === 'diurno' ? 'diurna' : 'vespertina') + ')';
+    return h.dia + ', ' + h.hora + ' (jornada de la ' + h.jornada.toLowerCase() + ')';
   }
 
   function inscribir(id, hid) {
@@ -228,7 +237,7 @@
               '<span class="slot__cta">Inscribirme</span></button>';
           }).join('') + '</div>'
         : '<p class="reason">Ya no quedan horarios de ' + esc(MODALIDADES[cfg.modalidad].toLowerCase()) +
-          ' en la jornada ' + (cfg.jornada === 'diurno' ? 'diurna' : 'vespertina') +
+          ' en la jornada de la ' + cfg.jornada.toLowerCase() +
           '. Prueba con otra modalidad o jornada.</p>';
 
       html += '<div class="enroll__form">' +
@@ -236,7 +245,7 @@
           '<div class="group__col"><span class="group__label">Modalidad</span><div class="chips">' +
             botonesEleccion(['individual', 'grupo'], cfg.modalidad, 'enroll-modalidad', id, MODALIDADES) + '</div></div>' +
           '<div class="group__col"><span class="group__label">Jornada</span><div class="chips">' +
-            botonesEleccion(['diurno', 'vespertino'], cfg.jornada, 'enroll-jornada', id, JORNADAS) + '</div></div>' +
+            botonesEleccion(M.franjas, cfg.jornada, 'enroll-jornada', id, JORNADAS) + '</div></div>' +
         '</div>' +
         '<span class="group__label">Horarios disponibles</span>' + slots +
       '</div>';
