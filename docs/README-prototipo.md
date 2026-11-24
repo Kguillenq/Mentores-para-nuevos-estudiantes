@@ -14,7 +14,7 @@ Abre `index.html` con doble clic, o desde esta carpeta: `python -m http.server 8
    se muestra un aviso, igual que en el backend.
 
 3. **Inscripción (simulada):** en cada mentor, el botón «Inscribirme con este mentor» abre un panel donde el alumno elige
-   **clase individual** o **grupo de estudio** y la **jornada** (Mañana, Tarde o Noche, las mismas franjas del modelo). Solo se listan los horarios de la jornada elegida.
+   **clase individual** o **grupo de estudio**. Solo se listan los horarios de la **jornada (Mañana, Tarde o Noche) que el alumno eligió en su perfil**, antes de calcular la compatibilidad; para cambiarla debe editar su perfil.
    Al tomar un horario aparece un mensaje de éxito y ese horario no vuelve a mostrarse. Cuando se toman todos los horarios del mentor,
    la tarjeta indica que ya no tiene cupos de inscripción disponibles. La oferta de horarios se define en `HORARIOS` (inicio de `app.js`).
 
