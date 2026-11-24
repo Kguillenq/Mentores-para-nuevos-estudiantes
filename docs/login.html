@@ -67,12 +67,14 @@
       font: 700 16px 'DM Sans', system-ui, sans-serif;
       cursor: pointer;
     }
+    input.invalid { border-color: #B3261E; }
+    .error { margin: 14px 0 0; color: #B3261E; font-size: 14px; font-weight: 500; }
     button:hover { background: var(--navy-700); }
     button:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
   </style>
 </head>
 <body>
-  <form class="card" id="loginForm">
+  <form class="card" id="loginForm" novalidate>
     <div class="brand">
       <span class="brand__logo" aria-hidden="true">M</span>
       <span class="brand__name">Mentores</span>
@@ -88,6 +90,8 @@
     <label for="clave">Clave</label>
     <input id="clave" type="password" placeholder="••••••••">
 
+    <p class="error" id="error" role="alert" hidden></p>
+
     <button type="submit">Entrar</button>
   </form>
 
@@ -97,14 +101,42 @@
 
     try { if (localStorage.getItem(KEY)) location.replace(HOME); } catch (e) {}
 
+    var campos = [
+      { id: 'nombre', etiqueta: 'el nombre de usuario' },
+      { id: 'correo', etiqueta: 'el correo' },
+      { id: 'clave',  etiqueta: 'la clave' }
+    ];
+    var errorBox = document.getElementById('error');
+
+    // Al escribir en un campo se le quita el borde rojo
+    campos.forEach(function (c) {
+      document.getElementById(c.id).addEventListener('input', function () {
+        this.classList.remove('invalid');
+      });
+    });
+
     document.getElementById('loginForm').addEventListener('submit', function (e) {
       e.preventDefault();
-      var correo = document.getElementById('correo').value.trim();
+
+      // Solo se exige que todos los datos estén rellenados (no se verifica que sean correctos).
+      var faltan = campos.filter(function (c) {
+        var input = document.getElementById(c.id);
+        var vacio = input.value.trim() === '';
+        input.classList.toggle('invalid', vacio);
+        return vacio;
+      });
+
+      if (faltan.length) {
+        errorBox.textContent = 'Completa todos los datos para entrar. Falta: ' +
+          faltan.map(function (c) { return c.etiqueta; }).join(', ') + '.';
+        errorBox.hidden = false;
+        document.getElementById(faltan[0].id).focus();
+        return;
+      }
+      errorBox.hidden = true;
+
       var nombre = document.getElementById('nombre').value.trim();
-
-      // No se verifica nada. Si no escribe nombre, se usa lo que va antes del @ del correo.
-      if (!nombre) nombre = correo ? correo.split('@')[0] : 'Usuario';
-
+      var correo = document.getElementById('correo').value.trim();
       try { localStorage.setItem(KEY, JSON.stringify({ nombre: nombre, correo: correo })); } catch (err) {}
       location.href = HOME;
     });
