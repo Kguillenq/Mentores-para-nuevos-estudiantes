@@ -13,6 +13,11 @@ Abre `index.html` con doble clic, o desde esta carpeta: `python -m http.server 8
 2. **Tus mentores:** ranking con la compatibilidad (%) de cada mentor y los motivos de la recomendación. Si el mejor mentor no supera 50 %,
    se muestra un aviso, igual que en el backend.
 
+3. **Inscripción (simulada):** en cada mentor, el botón «Inscribirme con este mentor» abre un panel donde el alumno elige
+   **clase individual** o **grupo de estudio** y la **jornada** (diurno o vespertino). Solo se listan los horarios de la jornada elegida.
+   Al tomar un horario aparece un mensaje de éxito y ese horario no vuelve a mostrarse. Cuando se toman todos los horarios del mentor,
+   la tarjeta indica que ya no tiene cupos de inscripción disponibles. La oferta de horarios se define en `HORARIOS` (inicio de `app.js`).
+
 ## Estructura
 ```
 docs/
@@ -30,4 +35,5 @@ docs/
 
 ## Limitaciones
 - Los mentores y el entrenamiento son **datos sintéticos**: la compatibilidad refleja la regla definida por el equipo, no resultados reales de mentorías.
-- Esta interfaz solo recomienda: no agenda sesiones ni inscribe a nadie.
+- La inscripción a clases es una **simulación**: no guarda registros y se reinicia al recargar la página.
+- Los datos de mentores, horarios y cupos son de ejemplo.

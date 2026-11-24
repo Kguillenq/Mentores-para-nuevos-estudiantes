@@ -40,8 +40,27 @@
   var SEMESTRES = [1, 2];       // alcance del prototipo: estudiantes de 1.º y 2.º semestre
   var OPCIONES_K = [3, 5, 10];
 
+  // ---------- Inscripción simulada ----------
+  // Horarios que ofrece CADA mentor. Cada horario es un cupo: al tomarlo desaparece de la lista
+  // y, cuando se toman todos, el mentor queda "sin cupos". Para cambiar la oferta, edita esta lista.
+  // Nada se guarda: el estado vive solo en memoria y se reinicia al recargar la página.
+  var HORARIOS = [
+    { id: 'i-d1', modalidad: 'individual', jornada: 'diurno',     dia: 'Lunes',     hora: '09:00 – 10:00' },
+    { id: 'i-d2', modalidad: 'individual', jornada: 'diurno',     dia: 'Miércoles', hora: '11:00 – 12:00' },
+    { id: 'i-v1', modalidad: 'individual', jornada: 'vespertino', dia: 'Martes',    hora: '17:00 – 18:00' },
+    { id: 'i-v2', modalidad: 'individual', jornada: 'vespertino', dia: 'Jueves',    hora: '18:00 – 19:00' },
+    { id: 'g-d1', modalidad: 'grupo',      jornada: 'diurno',     dia: 'Martes',    hora: '10:00 – 11:30' },
+    { id: 'g-v1', modalidad: 'grupo',      jornada: 'vespertino', dia: 'Viernes',   hora: '16:30 – 18:00' }
+  ];
+  var MODALIDADES = { individual: 'Clase individual', grupo: 'Grupo de estudio' };
+  var JORNADAS = { diurno: 'Diurno', vespertino: 'Vespertino' };
+
   var state = { screen: 'form', carrera: null, interes: null, necesidad: null, franja: null,
-                semestre: 1, k: 3, errores: [] };
+                semestre: 1, k: 3, errores: [],
+                tomados: {},     // mentor_id -> [ids de horarios ya tomados]
+                panel: {},       // mentor_id -> { modalidad, jornada } elegidas en el panel
+                abierto: null,   // mentor_id con el panel de inscripción abierto
+                mensajes: {} };  // mentor_id -> mensaje de éxito
 
   // ---------- Utilidades ----------
 
@@ -116,6 +135,114 @@
     if (state.franja) bits.push('franja ' + state.franja.toLowerCase());
     bits.push(ord(state.semestre) + ' semestre');
     return bits;
+  }
+
+  // ---------- Inscripción: lógica ----------
+
+  function jornadaPorDefecto() { return state.franja === 'Mañana' ? 'diurno' : 'vespertino'; }
+
+  function panelDe(id) {
+    if (!state.panel[id]) state.panel[id] = { modalidad: 'individual', jornada: jornadaPorDefecto() };
+    return state.panel[id];
+  }
+
+  function tomadosDe(id) { return state.tomados[id] || []; }
+  function sinCupos(id) { return tomadosDe(id).length >= HORARIOS.length; }
+
+  // Solo horarios de la modalidad y jornada elegidas que todavía no se han tomado.
+  function libres(id, modalidad, jornada) {
+    var t = tomadosDe(id);
+    return HORARIOS.filter(function (h) {
+      return h.modalidad === modalidad && h.jornada === jornada && t.indexOf(h.id) === -1;
+    });
+  }
+
+  function horarioPorId(hid) {
+    return HORARIOS.filter(function (h) { return h.id === hid; })[0];
+  }
+
+  function textoHorario(h) {
+    return h.dia + ', ' + h.hora + ' (jornada ' + (h.jornada === 'diurno' ? 'diurna' : 'vespertina') + ')';
+  }
+
+  function inscribir(id, hid) {
+    var h = horarioPorId(hid);
+    if (!h || tomadosDe(id).indexOf(hid) !== -1) return;
+    state.tomados[id] = tomadosDe(id).concat(hid);
+    state.mensajes[id] = '¡Inscripción exitosa! Quedaste inscrito en ' +
+      (h.modalidad === 'grupo' ? 'un grupo de estudio' : 'una clase individual') +
+      ' con el Mentor ' + id + ': ' + textoHorario(h) +
+      '. Es solo una simulación: no se guardó ningún registro.';
+  }
+
+  // ---------- Inscripción: vistas ----------
+
+  function botonesEleccion(lista, actual, action, id, nombres) {
+    return lista.map(function (k) {
+      var on = actual === k;
+      return '<button type="button" class="chip chip--plain' + (on ? ' is-on' : '') + '" data-action="' + action +
+        '" data-value="' + esc(id + '|' + k) + '" aria-pressed="' + on + '">' + esc(nombres[k]) + '</button>';
+    }).join('');
+  }
+
+  function accionInscripcion(m) {
+    var id = m.mentor_id;
+    if (sinCupos(id)) {
+      return '<div class="enroll-full" role="status">Este mentor ya no tiene cupos de inscripción disponibles.</div>';
+    }
+    var abierto = state.abierto === id;
+    return '<button type="button" class="btn-enroll" data-action="toggle-enroll" data-value="' + esc(id) +
+      '" aria-expanded="' + abierto + '">' + (abierto ? 'Cerrar inscripción' : 'Inscribirme con este mentor') + '</button>';
+  }
+
+  function panelInscripcion(m) {
+    var id = m.mentor_id;
+    var abierto = state.abierto === id && !sinCupos(id);
+    var tomados = tomadosDe(id);
+    var msg = state.mensajes[id];
+    if (!abierto && !tomados.length && !msg) return '';
+
+    var html = '<div class="enroll">';
+
+    if (msg) {
+      html += '<div class="enroll__ok" role="status" tabindex="-1" id="ok-' + esc(id) + '">✅ ' + esc(msg) + '</div>';
+    }
+
+    if (tomados.length) {
+      html += '<div class="enroll__mine"><span class="reasons__title">Tus inscripciones con este mentor (simulación)</span><ul class="reasons">' +
+        tomados.map(function (hid) {
+          var h = horarioPorId(hid);
+          return '<li>' + esc(MODALIDADES[h.modalidad]) + ' · ' + esc(textoHorario(h)) + '</li>';
+        }).join('') + '</ul></div>';
+    }
+
+    if (abierto) {
+      var cfg = panelDe(id);
+      var lista = libres(id, cfg.modalidad, cfg.jornada);
+      var slots = lista.length
+        ? '<div class="slots">' + lista.map(function (h) {
+            return '<button type="button" class="slot" data-action="take-slot" data-value="' + esc(id + '|' + h.id) + '">' +
+              '<span class="slot__day">' + esc(h.dia) + '</span>' +
+              '<span class="slot__time">' + esc(h.hora) + '</span>' +
+              '<span class="slot__kind">' + (h.modalidad === 'grupo' ? 'Grupo de estudio · hasta 6 alumnos' : 'Individual · 1 alumno') + '</span>' +
+              '<span class="slot__cta">Inscribirme</span></button>';
+          }).join('') + '</div>'
+        : '<p class="reason">Ya no quedan horarios de ' + esc(MODALIDADES[cfg.modalidad].toLowerCase()) +
+          ' en la jornada ' + (cfg.jornada === 'diurno' ? 'diurna' : 'vespertina') +
+          '. Prueba con otra modalidad o jornada.</p>';
+
+      html += '<div class="enroll__form">' +
+        '<div class="group">' +
+          '<div class="group__col"><span class="group__label">Modalidad</span><div class="chips">' +
+            botonesEleccion(['individual', 'grupo'], cfg.modalidad, 'enroll-modalidad', id, MODALIDADES) + '</div></div>' +
+          '<div class="group__col"><span class="group__label">Jornada</span><div class="chips">' +
+            botonesEleccion(['diurno', 'vespertino'], cfg.jornada, 'enroll-jornada', id, JORNADAS) + '</div></div>' +
+        '</div>' +
+        '<span class="group__label">Horarios disponibles</span>' + slots +
+      '</div>';
+    }
+
+    return html + '</div>';
   }
 
   // ---------- Vistas ----------
@@ -291,7 +418,9 @@
           '<div class="bar" role="img" aria-label="Compatibilidad ' + pct.toFixed(1) + ' por ciento"><div class="bar__fill" style="width:' + pct + '%"></div></div>' +
           '<span class="reasons__title">Por qué te lo recomendamos</span>' +
           motivos +
+          accionInscripcion(m) +
         '</div>' +
+        panelInscripcion(m) +
       '</article>';
     }).join('');
 
@@ -325,6 +454,28 @@
     var action = t.getAttribute('data-action');
     var value = t.getAttribute('data-value');
 
+    if (action === 'toggle-enroll' || action === 'enroll-modalidad' || action === 'enroll-jornada' || action === 'take-slot') {
+      var partes = String(value).split('|');
+      var mid = partes[0];
+      if (action === 'toggle-enroll') {
+        state.abierto = state.abierto === mid ? null : mid;
+        delete state.mensajes[mid];
+        renderKeepingFocus(action, value);
+      } else if (action === 'enroll-modalidad') {
+        panelDe(mid).modalidad = partes[1];
+        renderKeepingFocus(action, value);
+      } else if (action === 'enroll-jornada') {
+        panelDe(mid).jornada = partes[1];
+        renderKeepingFocus(action, value);
+      } else {
+        inscribir(mid, partes[1]);
+        render();
+        var ok = document.getElementById('ok-' + mid);
+        if (ok) { ok.focus(); ok.scrollIntoView({ block: 'nearest' }); }
+      }
+      return;
+    }
+
     if (action === 'set-carrera') state.carrera = value;
     else if (action === 'set-interes') state.interes = value;
     else if (action === 'set-necesidad') state.necesidad = value;
@@ -350,7 +501,7 @@
 
   el('footer-note').textContent =
     'Prototipo académico (Proyecto Integrador DSI). Los mentores y los estudiantes del entrenamiento son datos sintéticos: ' +
-    'no hay datos personales ni inicio de sesión. La compatibilidad es una probabilidad estimada por un modelo de regresión logística ' +
+    'no hay datos personales ni inicio de sesión, y la inscripción a clases es solo una simulación que no guarda registros. La compatibilidad es una probabilidad estimada por un modelo de regresión logística ' +
     'entrenado con una regla definida por el equipo, no mide el éxito real de una mentoría.';
 
   render();
