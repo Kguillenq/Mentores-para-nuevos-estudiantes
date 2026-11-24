@@ -227,6 +227,7 @@
 
     if (abierto) {
       var cfg = panelDe(id);
+      cfg.jornada = state.franja;   // solo la jornada que el alumno eligió en su perfil
       var lista = libres(id, cfg.modalidad, cfg.jornada);
       var slots = lista.length
         ? '<div class="slots">' + lista.map(function (h) {
@@ -244,8 +245,7 @@
         '<div class="group">' +
           '<div class="group__col"><span class="group__label">Modalidad</span><div class="chips">' +
             botonesEleccion(['individual', 'grupo'], cfg.modalidad, 'enroll-modalidad', id, MODALIDADES) + '</div></div>' +
-          '<div class="group__col"><span class="group__label">Jornada</span><div class="chips">' +
-            botonesEleccion(M.franjas, cfg.jornada, 'enroll-jornada', id, JORNADAS) + '</div></div>' +
+          '<div class="group__col"><span class="group__label">Jornada</span><div class="chips"><span class="fact is-match cat-tech">' + esc(cfg.jornada) + ' (la que elegiste en tu perfil)</span></div></div>' +
         '</div>' +
         '<span class="group__label">Horarios disponibles</span>' + slots +
       '</div>';
@@ -463,7 +463,7 @@
     var action = t.getAttribute('data-action');
     var value = t.getAttribute('data-value');
 
-    if (action === 'toggle-enroll' || action === 'enroll-modalidad' || action === 'enroll-jornada' || action === 'take-slot') {
+    if (action === 'toggle-enroll' || action === 'enroll-modalidad' || action === 'take-slot') {
       var partes = String(value).split('|');
       var mid = partes[0];
       if (action === 'toggle-enroll') {
@@ -472,9 +472,6 @@
         renderKeepingFocus(action, value);
       } else if (action === 'enroll-modalidad') {
         panelDe(mid).modalidad = partes[1];
-        renderKeepingFocus(action, value);
-      } else if (action === 'enroll-jornada') {
-        panelDe(mid).jornada = partes[1];
         renderKeepingFocus(action, value);
       } else {
         inscribir(mid, partes[1]);
