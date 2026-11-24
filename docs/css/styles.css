@@ -431,3 +431,66 @@ h1, h2, h3, p { margin: 0; }
 .fact.is-match { background: var(--tint); color: var(--tfg); }
 
 .chip.cat-plain-note { font-weight: 500; }
+
+
+/* ==========================================================
+   Inscripción simulada (clases individuales / grupos de estudio)
+   ========================================================== */
+
+.class-card__side .btn-enroll { align-self: stretch; margin-top: 4px; }
+
+.enroll-full {
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #FBE4DA;
+  border: 1px solid #E3A98C;
+  color: #7A2E0E;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.enroll {
+  flex: 1 1 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+}
+
+.enroll__ok {
+  padding: 14px 18px;
+  border-radius: var(--radius-md);
+  background: #DAF0EC;
+  border: 1px solid #0F7A6D;
+  color: #0B5A50;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.enroll__mine { display: flex; flex-direction: column; gap: 6px; }
+
+.enroll__form { display: flex; flex-direction: column; gap: 14px; }
+
+.slots { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+
+.slot {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  background: #FFFFFF;
+  border: 1.5px solid var(--line-strong);
+  color: var(--navy-800);
+  text-align: left;
+}
+
+.slot:hover { border-color: var(--navy-800); background: var(--bg); }
+.slot__day { font-size: 17px; font-weight: 700; }
+.slot__time { font-size: 15px; }
+.slot__kind { font-size: 13px; color: var(--muted); }
+.slot__cta { margin-top: 6px; font-size: 13px; font-weight: 700; color: #FFFFFF; background: var(--navy-800); padding: 5px 12px; border-radius: 999px; }
